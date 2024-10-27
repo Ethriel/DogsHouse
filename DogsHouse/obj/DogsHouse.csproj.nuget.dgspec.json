@@ -4,14 +4,14 @@
     "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\DogsHouse.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\DogsHouse.csproj": {
+    "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\DogsHouse.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\DogsHouse.csproj",
-        "projectName": "DogsHouse",
-        "projectPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\DogsHouse.csproj",
+        "projectUniqueName": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\DogsHouse.Database.csproj",
+        "projectName": "DogsHouse.Database",
+        "projectPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\DogsHouse.Database.csproj",
         "packagesPath": "C:\\Users\\Kerfoer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\obj\\",
+        "outputPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Kerfoer\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,6 +46,213 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.10.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Proxies": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Services\\DogsHouse.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Services\\DogsHouse.Services.csproj",
+        "projectName": "DogsHouse.Services",
+        "projectPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Services\\DogsHouse.Services.csproj",
+        "packagesPath": "C:\\Users\\Kerfoer\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Services\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kerfoer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\DogsHouse.Database.csproj": {
+                "projectPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\DogsHouse.Database.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.10.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "System.Linq.Async": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "System.Linq.Async.Queryable": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\DogsHouse.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\DogsHouse.csproj",
+        "projectName": "DogsHouse",
+        "projectPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\DogsHouse.csproj",
+        "packagesPath": "C:\\Users\\Kerfoer\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Kerfoer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\DogsHouse.Database.csproj": {
+                "projectPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Database\\DogsHouse.Database.csproj"
+              },
+              "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Services\\DogsHouse.Services.csproj": {
+                "projectPath": "C:\\Users\\Kerfoer\\source\\repos\\DogsHouse\\DogsHouse.Services\\DogsHouse.Services.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AspNetCoreRateLimit": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.10.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"

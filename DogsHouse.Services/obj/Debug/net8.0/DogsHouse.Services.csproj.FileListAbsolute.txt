@@ -1,0 +1,16 @@
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\bin\Debug\net8.0\DogsHouse.Services.deps.json
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\bin\Debug\net8.0\DogsHouse.Services.dll
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\bin\Debug\net8.0\DogsHouse.Services.pdb
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.csproj.AssemblyReference.cache
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.AssemblyInfoInputs.cache
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.AssemblyInfo.cs
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.csproj.CoreCompileInputs.cache
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.sourcelink.json
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.dll
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\refint\DogsHouse.Services.dll
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHouse.Services.pdb
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\ref\DogsHouse.Services.dll
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\bin\Debug\net8.0\DogsHouse.Database.dll
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\bin\Debug\net8.0\DogsHouse.Database.pdb
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse.Services\obj\Debug\net8.0\DogsHous.B6BA1C20.Up2Date
