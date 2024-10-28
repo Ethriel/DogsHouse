@@ -1,5 +1,4 @@
-﻿using DogsHouse.Database.Model;
-using DogsHouse.Services.Model;
+﻿using DogsHouse.Services.Model;
 using FluentValidation;
 
 namespace DogsHouse.Services.Validation
@@ -8,8 +7,10 @@ namespace DogsHouse.Services.Validation
     {
         public DogValidator()
         {
-            RuleFor(dog => dog.Name).NotEmpty().Length(3, 30);
-            RuleFor(dog => dog.Color).NotEmpty().Length(3, 30);
+            RuleFor(dog => dog.Name).NotEmpty().WithMessage("Name is required")
+                                    .Length(3, 30).WithMessage("Name should be between 3 and 30 charachters");
+            RuleFor(dog => dog.Color).NotEmpty().WithMessage("Color is required")
+                                     .Length(3, 30).WithMessage("Color should be between 3 and 30 charachters");
 
             Action<int, ValidationContext<DogDTO>> numberValidation = (value, context) =>
             {
@@ -18,7 +19,7 @@ namespace DogsHouse.Services.Validation
                 {
                     context.AddFailure($"{propName} should be greater than zero!");
                 }
-                else if (propName == nameof(Dog.TailLength) && !(value >= 0))
+                else if (propName == nameof(DogDTO.TailLength) && !(value >= 0))
                 {
                     context.AddFailure($"{propName} should be greater or equal to zero!");
                 }

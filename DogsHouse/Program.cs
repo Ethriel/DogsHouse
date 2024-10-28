@@ -3,7 +3,6 @@ using AspNetCoreRateLimit;
 using DogsHouse.Database;
 using DogsHouse.Extensions;
 using DogsHouse.Services.Model.Mapper;
-using DogsHouse.Utility;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;

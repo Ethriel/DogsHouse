@@ -17,7 +17,7 @@ namespace DogsHouse.Extensions
         {
             return services.AddScoped<DbContext, DogsHouseContext>()
                            .AddScoped(typeof(IEntityService<>), typeof(EntityService<>))
-                           .AddScoped(typeof(IExtendedEntityService<>), typeof(ExtendedEntityService<>))
+                           .AddScoped(typeof(IEntityExtendedService<>), typeof(EntityExtendedService<>))
                            .AddScoped(typeof(IMapperService<,>), typeof(MapperService<,>))
                            .AddScoped<IValidator<DogDTO>, DogValidator>()
                            .AddScoped<IValidator<DogsSortingFilter>, DogsSortingValidator>()

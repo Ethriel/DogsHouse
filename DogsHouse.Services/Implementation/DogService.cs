@@ -11,7 +11,7 @@ namespace DogsHouse.Services
 {
     public class DogService : IDogService
     {
-        private readonly IExtendedEntityService<Dog> dogEntityService;
+        private readonly IEntityExtendedService<Dog> dogEntityService;
         private readonly IMapperService<Dog, DogDTO> mapperService;
         private readonly IValidator<DogDTO> dogValidator;
         private readonly IValidator<DogsSortingFilter> dogsFilterValidator;
@@ -19,7 +19,7 @@ namespace DogsHouse.Services
         private readonly ILogger<IDogService> logger;
 
         public DogService(
-            IExtendedEntityService<Dog> entityService,
+            IEntityExtendedService<Dog> entityService,
             IMapperService<Dog,
             DogDTO> mapperService,
             IValidator<DogDTO> dogValidator,
@@ -44,7 +44,7 @@ namespace DogsHouse.Services
             {
                 logger.LogError($"{errorMessage}. Failed to validate dog DTO");
                 var validationErrors = validationResult.Errors.Select(err => err.ErrorMessage);
-                apiResult = new ApiErrorResult(loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
+                apiResult = new ApiErrorResult(ApiResultStatus.ValidationFailed, loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace DogsHouse.Services
             }
             else
             {
-                var deleteResult = dogEntityService.Delete(dogToDelete);
+                var deleteResult = dogEntityService.Delete(id);
 
                 if (!deleteResult)
                 {
@@ -141,7 +141,7 @@ namespace DogsHouse.Services
             {
                 logger.LogError($"{errorMessage}. Failed to validate dog filter. {filterMessage}");
                 var validationErrors = dogsFilterValidationResult.Errors.Select(err => err.ErrorMessage);
-                apiResult = new ApiErrorResult(loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
+                apiResult = new ApiErrorResult(ApiResultStatus.ValidationFailed, loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
             }
             else
             {
@@ -216,7 +216,7 @@ namespace DogsHouse.Services
             {
                 logger.LogError($"{errorMessage}. Failed to validate dog pagination");
                 var validationErrors = validationResult.Errors.Select(err => err.ErrorMessage);
-                apiResult = new ApiErrorResult(loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
+                apiResult = new ApiErrorResult(ApiResultStatus.ValidationFailed, loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
             }
             else
             {
@@ -269,7 +269,7 @@ namespace DogsHouse.Services
             {
                 logger.LogError($"{errorMessage}. Failed to validate dog DTO");
                 var validationErrors = validationResult.Errors.Select(err => err.ErrorMessage);
-                apiResult = new ApiErrorResult(loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
+                apiResult = new ApiErrorResult(ApiResultStatus.ValidationFailed, loggerErrorMessage: errorMessage, errorMessage: errorMessage, errors: validationErrors);
             }
             else
             {

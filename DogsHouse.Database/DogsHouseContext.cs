@@ -7,6 +7,7 @@ namespace DogsHouse.Database
     public class DogsHouseContext : DbContext
     {
         public virtual DbSet<Dog> Dogs { get; set; }
+        public DogsHouseContext() { }
         public DogsHouseContext(DbContextOptions options) : base(options)
         {
 

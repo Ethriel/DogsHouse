@@ -17,7 +17,7 @@ namespace DogsHouse.Services
         {
             set.Add(entity);
 
-            return Save() > 0;
+            return Save() >= 0;
         }
 
         public async Task<bool> CreateAsync(T entity)
@@ -34,7 +34,7 @@ namespace DogsHouse.Services
 
             set.Remove(entity);
 
-            return Save() > 0;
+            return Save() >= 0;
         }
 
         public async Task<bool> DeleteAsync(object id)

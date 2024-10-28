@@ -3,9 +3,9 @@ using System.Linq.Expressions;
 
 namespace DogsHouse.Services
 {
-    public class ExtendedEntityService<T> : EntityService<T>, IExtendedEntityService<T> where T : class
+    public class EntityExtendedService<T> : EntityService<T>, IEntityExtendedService<T> where T : class
     {
-        public ExtendedEntityService(DbContext context) : base(context)
+        public EntityExtendedService(DbContext context) : base(context)
         {
         }
         public T ReadByCondition(Expression<Func<T, bool>> conditionExpression)

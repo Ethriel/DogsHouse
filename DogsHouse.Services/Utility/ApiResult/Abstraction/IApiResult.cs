@@ -8,7 +8,8 @@ namespace DogsHouse.Services.Utility.ApiResult
         NotFound,
         BadRequest,
         Conflict,
-        NoContent
+        NoContent,
+        ValidationFailed
     }
 
     public interface IApiResult

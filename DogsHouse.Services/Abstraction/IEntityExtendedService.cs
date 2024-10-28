@@ -2,7 +2,7 @@
 
 namespace DogsHouse.Services
 {
-    public interface IExtendedEntityService<T> : IEntityService<T> where T : class
+    public interface IEntityExtendedService<T> : IEntityService<T> where T : class
     {
         T ReadById(object id);
         Task<T> ReadByIdAsync(object id);
