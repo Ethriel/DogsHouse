@@ -1,10 +1,10 @@
-﻿using DogsHouse.Database.Model;
+﻿using DogsHouse.Extensions;
 using DogsHouse.Services;
+using DogsHouse.Services.DataPresentation;
+using DogsHouse.Services.Model;
 using DogsHouse.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DogsHouse.Controllers
 {
@@ -12,65 +12,69 @@ namespace DogsHouse.Controllers
     [ApiController]
     public class DogsController : ControllerBase
     {
-        private readonly IEntityService<Dog> dogsService;
+        private readonly IDogService dogsService;
+        private readonly ILogger<DogsController> logger;
 
-        public DogsController(IEntityService<Dog> dogsService)
+        public DogsController(IDogService dogsService, ILogger<DogsController> logger)
         {
             this.dogsService = dogsService;
+            this.logger = logger;
         }
-        // GET: api/<DogsController>
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var dogs = await dogsService.ReadAsync();
+            var apiResult = await dogsService.GetDogsAsync();
 
-            return Ok(dogs);
-        }
-
-        // GET api/<DogsController>/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var dogs = await dogsService.ReadAsync();
-            var dog = dogs.FirstOrDefault(x => x.Id == id);
-
-            return Ok(dog);
+            return this.ActionResultByApiResult(apiResult, logger);
         }
 
         [HttpGet("ping")]
-        public async Task<IActionResult> Ping([FromServices] IOptions<Application> application)
+        public IActionResult Ping([FromServices] IOptions<ApplicationOptions> application)
         {
             var appInfo = $"{application.Value.Name}. Version {application.Value.Version}";
 
             return Ok(appInfo);
         }
 
-        // POST api/<DogsController>
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Dog dog)
+        [HttpGet("filter-dogs")]
+        public async Task<IActionResult> FilterDogs([FromQuery] DogsSortingFilter filter)
         {
-            var result = await dogsService.CreateAsync(dog);
+            var apiResult = await dogsService.FilterDogsAsync(filter);
 
-            return Ok(result);
+            return this.ActionResultByApiResult(apiResult, logger);
+        }
+
+        [HttpGet("get-paged-dogs")]
+        public async Task<IActionResult> GetPagedDogs([FromQuery] DogsPagination pagination)
+        {
+            var apiResult = await dogsService.GetPagedAsync(pagination);
+
+            return this.ActionResultByApiResult(apiResult, logger);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] DogDTO dog)
+        {
+            var apiResult = await dogsService.AddDogAsync(dog);
+
+            return this.ActionResultByApiResult(apiResult, logger);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Dog newDog)
+        public async Task<IActionResult> Put(DogDTO newDog)
         {
-            var dogs = await dogsService.ReadAsync();
-            var oldDog = dogs.FirstOrDefault(x => x.Name == newDog.Name);
-            newDog = await dogsService.UpdateAsync(oldDog, newDog);
+            var apiResult = await dogsService.UpdateDogAsync(newDog);
 
-            return Ok(newDog);
+            return this.ActionResultByApiResult(apiResult, logger);
         }
 
-        // DELETE api/<DogsController>/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int id)
         {
-            var result = await dogsService.DeleteAsync(id);
+            var apiResult = await dogsService.DeleteDogAsync(id);
 
-            return Ok(result);
+            return this.ActionResultByApiResult(apiResult, logger);
         }
     }
 }

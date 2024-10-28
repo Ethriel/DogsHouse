@@ -10,16 +10,16 @@ namespace DogsHouse.Services.Utility.ApiResult
 
         public ApiErrorResult() { }
 
-        public ApiErrorResult(ApiResultStatus apiResultStatus = ApiResultStatus.BadRequest, string loggerMessage = "API request failed", string message = null, IEnumerable<string> errors = null)
+        public ApiErrorResult(ApiResultStatus apiResultStatus = ApiResultStatus.BadRequest, string loggerErrorMessage = "API request failed", string errorMessage = "An error occured", IEnumerable<string> errors = null)
         {
-            SetErrorResult(apiResultStatus, loggerMessage, message, errors);
+            SetErrorResult(apiResultStatus, loggerErrorMessage, errorMessage, errors);
         }
 
-        public void SetErrorResult(ApiResultStatus apiResultStatus = ApiResultStatus.BadRequest, string loggerMessage = "API request failed", string message = null, IEnumerable<string> errors = null)
+        public void SetErrorResult(ApiResultStatus apiResultStatus = ApiResultStatus.BadRequest, string loggerMessage = "API request failed", string errorMessage = "An error occured", IEnumerable<string> errors = null)
         {
             ApiResultStatus = apiResultStatus;
             LoggerMessage = loggerMessage;
-            Message = message;
+            Message = errorMessage;
             Errors = errors;
         }
     }

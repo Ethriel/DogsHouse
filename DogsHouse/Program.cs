@@ -2,6 +2,7 @@
 using AspNetCoreRateLimit;
 using DogsHouse.Database;
 using DogsHouse.Extensions;
+using DogsHouse.Services.Model.Mapper;
 using DogsHouse.Utility;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +26,8 @@ namespace DogsHouse
                             .AddDbContext<DogsHouseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")))
                             .AddAppServices()
                             .AddRateLimiting()
-                            .AddOptions()
-                            //.AddScoped<Application>()
-                            .Configure<Application>(builder.Configuration.GetSection("Application"));
+                            .AddAppOptions(builder.Configuration)
+                            .AddAutoMapper(typeof(DogMapperProfile));
 
             var app = builder.Build();
 

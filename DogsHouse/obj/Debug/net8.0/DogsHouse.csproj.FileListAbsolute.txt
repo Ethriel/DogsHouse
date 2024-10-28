@@ -157,3 +157,4 @@ C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse\obj\Debug\net8.0\DogsHouse.gen
 C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse\obj\Debug\net8.0\ref\DogsHouse.dll
 C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse\bin\Debug\net8.0\FluentValidation.dll
 C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse\bin\Debug\net8.0\AspNetCoreRateLimit.dll
+C:\Users\Kerfoer\source\repos\DogsHouse\DogsHouse\bin\Debug\net8.0\AutoMapper.dll

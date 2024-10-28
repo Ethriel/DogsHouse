@@ -1,6 +1,6 @@
-﻿namespace DogsHouse.Database.Model
+﻿namespace DogsHouse.Services.Model
 {
-    public class Dog
+    public class DogDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

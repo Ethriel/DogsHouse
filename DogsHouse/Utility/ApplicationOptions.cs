@@ -1,6 +1,6 @@
 ﻿namespace DogsHouse.Utility
 {
-    public class Application
+    public class ApplicationOptions
     {
         public string Name { get; set; }
         public string Version { get; set; }

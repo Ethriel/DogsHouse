@@ -35,6 +35,17 @@
           }
         }
       },
+      "AutoMapper/13.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Options": "8.0.2"
+        },
+        "runtime": {
+          "lib/net6.0/AutoMapper.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.0"
+          }
+        }
+      },
       "Azure.Core/1.35.0": {
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
@@ -1086,6 +1097,7 @@
       },
       "DogsHouse.Services/1.0.0": {
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "DogsHouse.Database": "1.0.0",
           "FluentValidation": "11.10.0",
           "Microsoft.EntityFrameworkCore": "8.0.10",
@@ -1114,6 +1126,13 @@
       "sha512": "sha512-6fq9+o1maGADUmpK/PvcF0DtXW2+7bSkIL7MDIo/agbIHKN8XkMQF4oze60DO731WaQmHmK260hB30FwPzCmEg==",
       "path": "aspnetcoreratelimit/5.0.0",
       "hashPath": "aspnetcoreratelimit.5.0.0.nupkg.sha512"
+    },
+    "AutoMapper/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+      "path": "automapper/13.0.1",
+      "hashPath": "automapper.13.0.1.nupkg.sha512"
     },
     "Azure.Core/1.35.0": {
       "type": "package",
