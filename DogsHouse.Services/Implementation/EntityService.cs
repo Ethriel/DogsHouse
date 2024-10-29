@@ -15,6 +15,8 @@ namespace DogsHouse.Services
         }
         public bool Create(T entity)
         {
+            if (entity == null) return false;
+
             set.Add(entity);
 
             return Save() >= 0;
@@ -29,8 +31,7 @@ namespace DogsHouse.Services
         {
             var entity = set.Find(id);
 
-            if (entity == null)
-                return false;
+            if (entity == null) return false;
 
             set.Remove(entity);
 

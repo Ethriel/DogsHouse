@@ -2,11 +2,6 @@
 using DogsHouse.Services.Abstraction;
 using DogsHouse.Services.Model;
 using DogsHouse.Tests.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DogsHouse.Tests.ServiceTests
 {
@@ -19,17 +14,11 @@ namespace DogsHouse.Tests.ServiceTests
             _mapperService = MockUtility.MockMapperService();
         }
 
+        #region MapDto
         [Fact]
         public void MapDto_MappsEntityToDTO()
         {
-            var dog = new Dog
-            {
-                Id = 1,
-                Color = "black&white",
-                Name = "Jessy",
-                TailLength = 10,
-                Weight = 15
-            };
+            var dog = TestDataUtility.GetTestDog();
 
             var dogDto = _mapperService.MapDto(dog);
 
@@ -40,14 +29,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public async Task MapDtoAsync_MappsEntityToDTO()
         {
-            var dog = new Dog
-            {
-                Id = 1,
-                Color = "black&white",
-                Name = "Jessy",
-                TailLength = 10,
-                Weight = 15
-            };
+            var dog = TestDataUtility.GetTestDog();
 
             var dogDto = await _mapperService.MapDtoAsync(dog);
 
@@ -56,9 +38,27 @@ namespace DogsHouse.Tests.ServiceTests
         }
 
         [Fact]
+        public void MapDto_MappsNull()
+        {
+            var dogDto = _mapperService.MapDto(null);
+
+            Assert.Null(dogDto);
+        }
+
+        [Fact]
+        public async Task MapDtoAsync_MappsNull()
+        {
+            var dogDto = await _mapperService.MapDtoAsync(null);
+
+            Assert.Null(dogDto);
+        }
+        #endregion
+
+        #region MapDtos
+        [Fact]
         public void MapDtos_MappsEntitiesToDTOs()
         {
-            var dogs = TestData.GetTestDogs();
+            var dogs = TestDataUtility.GetTestDogs();
             var dogDtos = _mapperService.MapDtos(dogs);
 
             Assert.NotNull(dogDtos);
@@ -69,7 +69,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public async Task MapDtosAsync_MappsEntitiesToDTOs()
         {
-            var dogs = TestData.GetTestDogs();
+            var dogs = TestDataUtility.GetTestDogs();
             var dogDtos = await _mapperService.MapDtosAsync(dogs);
 
             Assert.NotNull(dogDtos);
@@ -78,16 +78,47 @@ namespace DogsHouse.Tests.ServiceTests
         }
 
         [Fact]
+        public void MapDtos_MappsEmptyFromNull()
+        {
+            var dogDtos = _mapperService.MapDtos(null);
+
+            Assert.NotNull(dogDtos);
+            Assert.Empty(dogDtos);
+        }
+
+        [Fact]
+        public async Task MapDtosAsync_MappsEmptyFromNull()
+        {
+            var dogDtos = await _mapperService.MapDtosAsync(null);
+
+            Assert.NotNull(dogDtos);
+            Assert.Empty(dogDtos);
+        }
+
+        [Fact]
+        public void MapDtos_MappsEmptyFromEmpty()
+        {
+            var dogDtos = _mapperService.MapDtos(new List<Dog>());
+
+            Assert.NotNull(dogDtos);
+            Assert.Empty(dogDtos);
+        }
+
+        [Fact]
+        public async Task MapDtosAsync_MappsEmptyFromEmpty()
+        {
+            var dogDtos = await _mapperService.MapDtosAsync(new List<Dog>());
+
+            Assert.NotNull(dogDtos);
+            Assert.Empty(dogDtos);
+        }
+        #endregion
+
+        #region MapEntity
+        [Fact]
         public void MapEntity_MappsEntityFromDTO()
         {
-            var dogDto = new DogDTO
-            {
-                Id = 1,
-                Color = "black&white",
-                Name = "Jessy",
-                TailLength = 10,
-                Weight = 15
-            };
+            var dogDto = TestDataUtility.GetTestDogDTO();
 
             var dog = _mapperService.MapEntity(dogDto);
 
@@ -98,14 +129,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public async Task MapEntityAsync_MappsEntityFromDTO()
         {
-            var dogDto = new DogDTO
-            {
-                Id = 1,
-                Color = "black&white",
-                Name = "Jessy",
-                TailLength = 10,
-                Weight = 15
-            };
+            var dogDto = TestDataUtility.GetTestDogDTO();
 
             var dog = await _mapperService.MapEntityAsync(dogDto);
 
@@ -114,9 +138,27 @@ namespace DogsHouse.Tests.ServiceTests
         }
 
         [Fact]
+        public void MapEntity_MappsNull()
+        {
+            var dog = _mapperService.MapEntity(null);
+
+            Assert.Null(dog);
+        }
+
+        [Fact]
+        public async Task MapEntityAsync_MappsNull()
+        {
+            var dog = await _mapperService.MapEntityAsync(null);
+
+            Assert.Null(dog);
+        }
+        #endregion
+
+        #region MapEntities
+        [Fact]
         public void MapEntities_MappsEntitiesFromDTOs()
         {
-            var dogDtos = TestData.GetTestDogDTOs();
+            var dogDtos = TestDataUtility.GetTestDogDTOs();
             var dogs = _mapperService.MapEntities(dogDtos);
 
             Assert.NotNull(dogDtos);
@@ -127,12 +169,49 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public async Task MapEntitiesAsync_MappsEntitiesFromDTOs()
         {
-            var dogDtos = TestData.GetTestDogDTOs();
+            var dogDtos = TestDataUtility.GetTestDogDTOs();
             var dogs = await _mapperService.MapEntitiesAsync(dogDtos);
 
             Assert.NotNull(dogDtos);
             Assert.NotEmpty(dogDtos);
             Assert.True(dogs.FirstOrDefault()?.Id == dogDtos.FirstOrDefault()?.Id && dogs.First().Name == dogDtos.FirstOrDefault()?.Name);
         }
+
+        [Fact]
+        public void MapEntities_MappsEmptyFromNull()
+        {
+            var dogs = _mapperService.MapEntities(null);
+
+            Assert.NotNull(dogs);
+            Assert.Empty(dogs);
+        }
+
+        [Fact]
+        public async Task MapEntitiesAsync_MappsEmptyFromNull()
+        {
+            var dogs = await _mapperService.MapEntitiesAsync(null);
+
+            Assert.NotNull(dogs);
+            Assert.Empty(dogs);
+        }
+
+        [Fact]
+        public void MapEntities_MappsEmptyFromEmpty()
+        {
+            var dogs = _mapperService.MapEntities(new List<DogDTO>());
+
+            Assert.NotNull(dogs);
+            Assert.Empty(dogs);
+        }
+
+        [Fact]
+        public async Task MapEntitiesAsync_MappsEmptyFromEmpty()
+        {
+            var dogs = await _mapperService.MapEntitiesAsync(new List<DogDTO>());
+
+            Assert.NotNull(dogs);
+            Assert.Empty(dogs);
+        }
+        #endregion
     }
 }

@@ -18,7 +18,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public void AddDog_ShouldCreateAndAddDog()
         {
-            var dogDto = TestData.GetTestDogDTO(0, "test0");
+            var dogDto = TestDataUtility.GetTestDogDTO(0, "test0");
             var result = _dogService.AddDog(dogDto);
 
             Assert.NotNull(result);
@@ -28,7 +28,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public async Task AddDogAsync_ShouldCreateAndAddDog()
         {
-            var dogDto = TestData.GetTestDogDTO(0, "test0");
+            var dogDto = TestDataUtility.GetTestDogDTO(0, "test0");
             var result = await _dogService.AddDogAsync(dogDto);
 
             Assert.NotNull(result);
@@ -38,7 +38,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public void AddDog_ShouldFailToValidate()
         {
-            var dogDto = TestData.GetTestDogDTO(0, "test0", "");
+            var dogDto = TestDataUtility.GetTestDogDTO(0, "test0", "");
             var result = _dogService.AddDog(dogDto);
 
             Assert.NotNull(result);
@@ -48,7 +48,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public async Task AddDogAsync_ShouldFailToValidate()
         {
-            var dogDto = TestData.GetTestDogDTO(0, "test0", "");
+            var dogDto = TestDataUtility.GetTestDogDTO(0, "test0", "");
             var result = await _dogService.AddDogAsync(dogDto);
 
             Assert.NotNull(result);
@@ -58,7 +58,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public void AddDog_ShouldBeConflict()
         {
-            var dogDto = TestData.GetTestDogDTO(0, "Jessy");
+            var dogDto = TestDataUtility.GetTestDogDTO(0, "Jessy");
             var result = _dogService.AddDog(dogDto);
 
             Assert.NotNull(result);
@@ -69,7 +69,7 @@ namespace DogsHouse.Tests.ServiceTests
         [Fact]
         public async Task AddDogAsync_ShouldBeConflict()
         {
-            var dogDto = TestData.GetTestDogDTO(0, "Jessy");
+            var dogDto = TestDataUtility.GetTestDogDTO(0, "Jessy");
             var result = await _dogService.AddDogAsync(dogDto);
 
             Assert.NotNull(result);
@@ -128,6 +128,18 @@ namespace DogsHouse.Tests.ServiceTests
             Assert.Equal(typeof(ApiErrorResult), result.GetType());
             Assert.Equal(ApiResultStatus.NotFound, result.ApiResultStatus);
         }
+
+        [Fact]
+        public void DeleteDog_ThrowsNullReferenceException()
+        {
+            Assert.Throws<NullReferenceException>(() => _dogService.DeleteDog(null));
+        }
+
+        [Fact]
+        public void DeleteDogAsync_ThrowsNullReferenceException()
+        {
+            Assert.ThrowsAsync<NullReferenceException>(async () => await _dogService.DeleteDogAsync(null));
+        }
         #endregion
 
         #region FilterDogs
@@ -179,6 +191,224 @@ namespace DogsHouse.Tests.ServiceTests
             Assert.NotNull(result);
             Assert.Equal(typeof(ApiErrorResult), result.GetType());
             Assert.Equal(ApiResultStatus.ValidationFailed, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public void FilterDogs_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => _dogService.FilterDogs(null));
+        }
+
+        [Fact]
+        public void FilterDogsAsync_ThrowsArgumentNullException()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _dogService.FilterDogsAsync(null));
+        }
+        #endregion
+
+        #region GetDogs
+        [Fact]
+        public void GetDogs_ShouldListDogs()
+        {
+            var result = _dogService.GetDogs();
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.Ok, result.ApiResultStatus);
+            Assert.NotEmpty(((IApiOkResult)result).Data as IEnumerable<DogDTO>);
+        }
+
+        [Fact]
+        public async Task GetDogsAsync_ShouldListDogs()
+        {
+            var result = await _dogService.GetDogsAsync();
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.Ok, result.ApiResultStatus);
+            Assert.NotEmpty(((IApiOkResult)result).Data as IEnumerable<DogDTO>);
+        }
+
+        [Fact]
+        public void GetDogs_ShouldReturnNoContent()
+        {
+            // Simulate an empty db
+            var localDogService = MockUtility.MockDogServiceEmptyDb();
+
+            var result = localDogService.GetDogs();
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.NoContent, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public async Task GetDogsAsync_ShouldReturnNoContent()
+        {
+            // Simulate an empty db
+            var localDogService = MockUtility.MockDogServiceEmptyDb();
+
+            var result = await localDogService.GetDogsAsync();
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.NoContent, result.ApiResultStatus);
+        }
+        #endregion
+
+        #region GetPaged
+        [Fact]
+        public void GetPaged_ShouldReturnPagedDogs()
+        {
+            var pagination = new DogsPagination { Page = 1, PageSize = 3 };
+
+            var result = _dogService.GetPaged(pagination);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.Ok, result.ApiResultStatus);
+            Assert.NotEmpty(((IApiOkResult)result).Data as IEnumerable<DogDTO>);
+        }
+
+        [Fact]
+        public async Task GetPagedAsync_ShouldReturnPagedDogs()
+        {
+            var pagination = new DogsPagination { Page = 1, PageSize = 3 };
+
+            var result = await _dogService.GetPagedAsync(pagination);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.Ok, result.ApiResultStatus);
+            Assert.NotEmpty(((IApiOkResult)result).Data as IEnumerable<DogDTO>);
+        }
+
+        [Fact]
+        public void GetPaged_ShouldReturnNoContentIfDbIsEmpty()
+        {
+            // Simulate an empty db
+            var localDogService = MockUtility.MockDogServiceEmptyDb();
+            var pagination = new DogsPagination { Page = 1, PageSize = 3 };
+
+            var result = localDogService.GetPaged(pagination);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.NoContent, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public async Task GetPagedAsync_ShouldReturnNoContentIfDbIsEmpty()
+        {
+            // Simulate an empty db
+            var localDogService = MockUtility.MockDogServiceEmptyDb();
+            var pagination = new DogsPagination { Page = 1, PageSize = 3 };
+
+            var result = await localDogService.GetPagedAsync(pagination);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.NoContent, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public void GetPaged_ShouldReturnNoContentByGivenPagination()
+        {
+            var pagination = new DogsPagination { Page = 3, PageSize = 10 };
+
+            var result = _dogService.GetPaged(pagination);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.NoContent, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public async Task GetPagedAsync_ShouldReturnNoContentByGivenPagination()
+        {
+            var pagination = new DogsPagination { Page = 3, PageSize = 10 };
+
+            var result = await _dogService.GetPagedAsync(pagination);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.NoContent, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public void GetPaged_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => _dogService.GetPaged(null));
+        }
+
+        [Fact]
+        public void GetPagedAsync_ThrowsArgumentNullException()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _dogService.GetPagedAsync(null));
+        }
+        #endregion
+
+        #region UpdateDog
+        [Fact]
+        public void UpdateDog_ShouldUpdateDog()
+        {
+            var newDogDto = TestDataUtility.GetTestDogDTO(1, "Jessy", "black&white", weight: 20);
+
+            var result = _dogService.UpdateDog(newDogDto);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.Ok, result.ApiResultStatus);
+            Assert.Equal(newDogDto.Weight, (((IApiOkResult)result).Data as DogDTO).Weight);
+        }
+
+        [Fact]
+        public async Task UpdateDogAsync_ShouldUpdateDog()
+        {
+            var newDogDto = TestDataUtility.GetTestDogDTO(1, "Jessy", "black&white", weight: 20);
+
+            var result = await _dogService.UpdateDogAsync(newDogDto);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiOkResult>(result);
+            Assert.Equal(ApiResultStatus.Ok, result.ApiResultStatus);
+            Assert.Equal(newDogDto.Weight, (((IApiOkResult)result).Data as DogDTO).Weight);
+        }
+
+        [Fact]
+        public void UpdateDog_ShouldReturnNotFound()
+        {
+            var newDogDto = TestDataUtility.GetTestDogDTO(4, "Jessy", "black&white", weight: 20);
+
+            var result = _dogService.UpdateDog(newDogDto);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiErrorResult>(result);
+            Assert.Equal(ApiResultStatus.NotFound, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public async Task UpdateDogAsync_ShouldReturnNotFound()
+        {
+            var newDogDto = TestDataUtility.GetTestDogDTO(4, "Jessy", "black&white", weight: 20);
+
+            var result = await _dogService.UpdateDogAsync(newDogDto);
+
+            Assert.NotNull(result);
+            Assert.IsType<ApiErrorResult>(result);
+            Assert.Equal(ApiResultStatus.NotFound, result.ApiResultStatus);
+        }
+
+        [Fact]
+        public void UpdateDog_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => _dogService.UpdateDog(null));
+        }
+
+        [Fact]
+        public void UpdateDogAsync_ThrowsArgumentNullException()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await _dogService.UpdateDogAsync(null));
         }
         #endregion
     }

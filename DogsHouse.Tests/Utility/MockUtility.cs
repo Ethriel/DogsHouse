@@ -8,7 +8,6 @@ using DogsHouse.Services.Model;
 using DogsHouse.Services.Model.Mapper;
 using DogsHouse.Services.Validation;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,12 +19,58 @@ namespace DogsHouse.Tests.Utility
 {
     public static class MockUtility
     {
-        public static DogsHouseContext GetMockedDbContext(List<Dog> inputData,
+        public static IEntityService<Dog> MockDogEntityService()
+        {
+            var dbContext = GetMockedDbContext(TestDataUtility.GetTestDogs(), context => context.Dogs);
+            return BuildDogEntityService(dbContext);
+        }
+
+        public static IEntityService<Dog> MockDogEntityServiceEmptyDb()
+        {
+            var dbContext = GetMockedDbContext(new List<Dog>(), context => context.Dogs);
+            return BuildDogEntityService(dbContext);
+        }
+
+        public static IEntityExtendedService<Dog> MockDogEntityExtendedService()
+        {
+            var dbContext = GetMockedDbContext(TestDataUtility.GetTestDogs(), context => context.Dogs);
+            return BuildDogExtendedService(dbContext);
+        }
+
+        public static IEntityExtendedService<Dog> MockDogEntityExtendedServiceEmptyDb()
+        {
+            var dbContext = GetMockedDbContext(new List<Dog>(), context => context.Dogs);
+            return BuildDogExtendedService(dbContext);
+        }
+
+        public static IMapperService<Dog, DogDTO> MockMapperService()
+        {
+            var serviceProvider = GetServiceProvider();
+            var mapper = serviceProvider.GetRequiredService<IMapper>();
+
+            return new Mock<MapperService<Dog, DogDTO>>(mapper).Object;
+        }
+
+        public static IDogService MockDogService()
+        {
+            var dbContext = GetMockedDbContext(TestDataUtility.GetTestDogs(), context => context.Dogs);
+
+            return BuildDogService(dbContext);
+        }
+
+        public static IDogService MockDogServiceEmptyDb()
+        {
+            var dbContext = GetMockedDbContext(new List<Dog>(), context => context.Dogs);
+
+            return BuildDogService(dbContext);
+        }
+
+        private static DbContext GetMockedDbContext(List<Dog> inputData,
             Expression<Func<DogsHouseContext, DbSet<Dog>>> dbSetSelectionExpression)
         {
             var inputDataQueryable = inputData.AsQueryable();
             var dbSetMock = new Mock<DbSet<Dog>>();
-            var dbContext = new Mock<DogsHouseContext>();
+            var dbMockContext = new Mock<DogsHouseContext>();
 
             dbSetMock.As<IQueryable<Dog>>().Setup(s => s.Provider).Returns(inputDataQueryable.Provider);
             dbSetMock.As<IQueryable<Dog>>().Setup(s => s.Expression).Returns(inputDataQueryable.Expression);
@@ -45,62 +90,12 @@ namespace DogsHouse.Tests.Utility
                 foreach (var record in data) { inputData.Remove(record); }
             });
 
-            dbContext.Setup(dbSetSelectionExpression).Returns(dbSetMock.Object);
-            dbContext.Setup(d => d.Set<Dog>()).Returns(dbSetMock.Object);
-            dbContext.Setup(d => d.Model).Returns(MockContextModel().Object);
-            dbContext.Setup(d => d.SaveChanges()).Returns(1);
+            dbMockContext.Setup(dbSetSelectionExpression).Returns(dbSetMock.Object);
+            dbMockContext.Setup(d => d.Set<Dog>()).Returns(dbSetMock.Object);
+            dbMockContext.Setup(d => d.Model).Returns(MockContextModel().Object);
+            dbMockContext.Setup(d => d.SaveChanges()).Returns(1);
 
-            return dbContext.Object;
-        }
-
-        public static IEntityService<Dog> MockDogEntityService()
-        {
-            var dbContext = GetMockedDbContext(TestData.GetTestDogs(), context => context.Dogs);
-            return new Mock<EntityService<Dog>>(dbContext).Object;
-        }
-
-        public static IEntityExtendedService<Dog> MockDogEntityExtendedService()
-        {
-            var dbContext = GetMockedDbContext(TestData.GetTestDogs(), context => context.Dogs);
-            return new Mock<EntityExtendedService<Dog>>(dbContext).Object;
-        }
-
-        public static IMapperService<Dog, DogDTO> MockMapperService()
-        {
-            var serviceProvider = GetServiceProvider();
-            var mapper = serviceProvider.GetRequiredService<IMapper>();
-
-            var mockMapperService = new Mock<MapperService<Dog, DogDTO>>(mapper);
-
-            return mockMapperService.Object;
-        }
-
-        public static IDogService MockDogService()
-        {
-            var dbContext = GetMockedDbContext(TestData.GetTestDogs(), context => context.Dogs);
-            var entityExtendedService = new EntityExtendedService<Dog>(dbContext);
-
-            var mapperService = MockMapperService();
-            var serviceProvider = GetServiceProvider();
-            var dogsValidator = serviceProvider.GetRequiredService<IValidator<DogDTO>>();
-            var dogsSortingValidator = serviceProvider.GetRequiredService<IValidator<DogsSortingFilter>>();
-            var DogsPagingValidator = serviceProvider.GetRequiredService<IValidator<DogsPagination>>();
-            var logger = serviceProvider.GetRequiredService<ILogger<IDogService>>();
-
-            return new Mock<DogService>(entityExtendedService, mapperService, dogsValidator, dogsSortingValidator, DogsPagingValidator, logger).Object;
-        }
-
-        public static ServiceProvider GetServiceProvider()
-        {
-            var serviceCollection = new ServiceCollection();
-
-            serviceCollection.AddAutoMapper(typeof(DogMapperProfile))
-                             .AddLogging()
-                             .AddScoped<IValidator<DogDTO>, DogValidator>()
-                             .AddScoped<IValidator<DogsSortingFilter>, DogsSortingValidator>()
-                             .AddScoped<IValidator<DogsPagination>, DogsPagingValidator>();
-
-            return serviceCollection.BuildServiceProvider();
+            return dbMockContext.Object;
         }
 
         private static Mock<IModel> MockContextModel()
@@ -113,6 +108,43 @@ namespace DogsHouse.Tests.Utility
             mockModel.Setup(m => m.GetEntityTypes()).Returns(new List<IEntityType> { mockDogEntityType.Object });
 
             return mockModel;
+        }
+
+        private static IEntityService<Dog> BuildDogEntityService(DbContext dbContext)
+        {
+            return new Mock<EntityService<Dog>>(dbContext).Object;
+        }
+
+        private static IEntityExtendedService<Dog> BuildDogExtendedService(DbContext dbContext)
+        {
+            return new Mock<EntityExtendedService<Dog>>(dbContext).Object;
+        }
+
+        private static IDogService BuildDogService(DbContext dbContext)
+        {
+            var entityExtendedService = BuildDogExtendedService(dbContext);
+
+            var mapperService = MockMapperService();
+            var serviceProvider = GetServiceProvider();
+            var dogsValidator = serviceProvider.GetRequiredService<IValidator<DogDTO>>();
+            var dogsSortingValidator = serviceProvider.GetRequiredService<IValidator<DogsSortingFilter>>();
+            var DogsPagingValidator = serviceProvider.GetRequiredService<IValidator<DogsPagination>>();
+            var logger = serviceProvider.GetRequiredService<ILogger<IDogService>>();
+
+            return new Mock<DogService>(entityExtendedService, mapperService, dogsValidator, dogsSortingValidator, DogsPagingValidator, logger).Object;
+        }
+
+        private static ServiceProvider GetServiceProvider()
+        {
+            var serviceCollection = new ServiceCollection();
+
+            serviceCollection.AddAutoMapper(typeof(DogMapperProfile))
+                             .AddLogging()
+                             .AddScoped<IValidator<DogDTO>, DogValidator>()
+                             .AddScoped<IValidator<DogsSortingFilter>, DogsSortingValidator>()
+                             .AddScoped<IValidator<DogsPagination>, DogsPagingValidator>();
+
+            return serviceCollection.BuildServiceProvider();
         }
     }
 }

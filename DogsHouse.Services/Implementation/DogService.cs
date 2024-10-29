@@ -36,9 +36,10 @@ namespace DogsHouse.Services
         }
         public IApiResult AddDog(DogDTO dog)
         {
+            var validationResult = ValidateDog(dog);
+
             var apiResult = default(IApiResult);
             var errorMessage = "Could not add a new dog";
-            var validationResult = ValidateDog(dog);
 
             if (!validationResult.IsValid)
             {
@@ -131,11 +132,11 @@ namespace DogsHouse.Services
 
         public IApiResult FilterDogs(DogsSortingFilter filter)
         {
+            var dogsFilterValidationResult = dogsFilterValidator.Validate(filter);
+
             var apiResult = default(IApiResult);
             var errorMessage = "Could not retreive dogs by filter";
             var filterMessage = $"(Attribute: {filter.Attribute}). (Order: {filter.Order})";
-
-            var dogsFilterValidationResult = dogsFilterValidator.Validate(filter);
 
             if (!dogsFilterValidationResult.IsValid)
             {
@@ -207,10 +208,10 @@ namespace DogsHouse.Services
 
         public IApiResult GetPaged(DogsPagination pagination)
         {
+            var validationResult = dogsPaginationValidator.Validate(pagination);
+
             var apiResult = default(IApiResult);
             var errorMessage = "Could not retreive a portion of dogs";
-
-            var validationResult = dogsPaginationValidator.Validate(pagination);
 
             if (!validationResult.IsValid)
             {
@@ -259,11 +260,10 @@ namespace DogsHouse.Services
 
         public IApiResult UpdateDog(DogDTO dog)
         {
+            var validationResult = ValidateDog(dog);
+
             var apiResult = default(IApiResult);
             var errorMessage = "Could not update a dog";
-            var dogIdMessage = $"(Id - {dog.Id})";
-
-            var validationResult = ValidateDog(dog);
 
             if (!validationResult.IsValid)
             {
@@ -283,6 +283,7 @@ namespace DogsHouse.Services
                 }
                 else
                 {
+                    var dogIdMessage = $"(Id - {dog.Id})";
                     var dogToUpdate = dogEntityService.ReadById(dog.Id);
 
                     if (dogToUpdate == null)
